@@ -12,10 +12,15 @@ class ToDoListViewController: UITableViewController {
 
     var itemArray = ["Finish an Ios App", "LBS Coursework", "Read Entrepreneurship-related Books"]
 
+    //add defaults to make sure that itemArray and items added to the item Array would be stored
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        //ensure that defaults are saved even when teh app accidentally recedes to the background or terminates 
+        if let items = defaults.array(forKey: "ToDoListArray" ) as? [String] {
+            itemArray = items
+        }
     }
     
     //MARK - Tableview Datasource Methods: set up the table framework
@@ -42,7 +47,11 @@ class ToDoListViewController: UITableViewController {
         
         //What happens when the user clicks the Alert/ Add item button
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+            
             self.itemArray.append(textField.text!)
+            
+            //messages saved to defaults in plist (always have keys and values)
+            self.defaults.set(self.itemArray, forKey: "ToDoListArray")
             
             self.tableView.reloadData()
         }
