@@ -10,7 +10,7 @@ import UIKit
 
 class ToDoListViewController: UITableViewController {
 
-    let itemArray = ["Finish an Ios App", "LBS Coursework", "Read Entrepreneurship-related Books"]
+    var itemArray = ["Finish an Ios App", "LBS Coursework", "Read Entrepreneurship-related Books"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +29,34 @@ class ToDoListViewController: UITableViewController {
         
         return cell
     }
+    
+    
+    //MARK - Add New Items Button
+    @IBAction func AddNewItems(_ sender: UIBarButtonItem) {
+        
+        var textField = UITextField()
+        
+        //UI of the Alert Screen (the part that doesn't involve action?)
+        let alert = UIAlertController(title: "What would you like to add to your to-do list?", message: "", preferredStyle: .alert)
+        
+        //What happens when the user clicks the Alert/ Add item button
+        let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+            self.itemArray.append(textField.text!)
+            
+            self.tableView.reloadData()
+        }
+        
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Create new item"
+            textField = alertTextField
+            
+        }
+        
+        alert.addAction(action)
+        
+        present(alert,animated: true, completion: nil)
+    }
+    
     
     
     //MARK - Tableview Data Delegate Methods: what to do with the table rows and columns once selected
